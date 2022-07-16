@@ -40,9 +40,8 @@ python manage.py makemigrations
 ```
 python manage.py migrate
 ```
-6- Setup email sending service (to send activation tokens and reset password), by adding email and pasword in ecommerce/settings.py
 
-7- Finally, run the development server :
+6- Finally, run the development server :
 ```
 python manage.py runserver 
 ```
