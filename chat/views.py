@@ -1,19 +1,35 @@
 import re
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.views.generic import View, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from chat.models import Message, Room
+from chat.models import Room
+from django.contrib.auth.forms import UserCreationForm
 
 
-class Index(View):
-    #login_url = ''
+class RegisterView(View):
+    def get(self, request):
+        form = UserCreationForm()
+        return render(request, 'registration/register.html', {'form':form})
+    
+    def post(self, request):
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('login'))
+        return render(request, 'registration/register.html', {'form':form})
+
+class Index(LoginRequiredMixin, View):
+    login_url = 'login'
     def get(self, request):
         return render(request, 'index.html', {
         'rooms': Room.objects.all(),
     })
 
 
-class RoomView(DetailView):
+class RoomView(LoginRequiredMixin, DetailView):
+    login_url = 'login'
     template_name = 'room.html'
     pk_url_kwarg = 'room_name'
     def get_object(self):

@@ -39,6 +39,9 @@
                     <select multiple class="form-control" id="onlineUsersSelector">
                     </select>
                 </div>
+                <div class="col-12 mt-5">
+                    <a href="{% url 'logout' %}" class="btn btn-danger">logout</a>
+                </div>
             </div>
             {{ room.name|json_script:"roomName" }}
         </div>
